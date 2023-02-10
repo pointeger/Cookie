@@ -1,0 +1,34 @@
+<?php
+
+/** @var \Magento\Cookie\Block\Html\Notices $block */
+/** @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer */
+/** @var \Magento\Cookie\Helper\Cookie $cookieHelper */
+/** @var \Pointeger\Cookie\ViewModel\CustomCookie $vm */
+
+$cookieHelper = $block->getData('cookieHelper');
+$vm = $block->getData('view_model');
+
+$cookieHelper = $block->getData('cookieHelper');
+if ($cookieHelper->isCookieRestrictionModeEnabled()): ?>
+    <?= $vm->renderCmsBlock(); ?>
+    <?= /* @noEscape */
+    $secureRenderer->renderStyleAsTag("display: none;", 'div#notice-cookie-block') ?>
+    <script type="text/x-magento-init">
+        {
+            "#notice-cookie-block": {
+                "cookieNotices": {
+                    "cookieAllowButtonSelector": "#btn-cookie-allow",
+                    "cookieName": "<?= /* @noEscape */
+        \Magento\Cookie\Helper\Cookie::IS_USER_ALLOWED_SAVE_COOKIE ?>",
+                    "cookieValue": <?= /* @noEscape */
+        $cookieHelper->getAcceptedSaveCookiesWebsiteIds() ?>,
+                    "cookieLifetime": <?= /* @noEscape */
+        $cookieHelper->getCookieRestrictionLifetime() ?>,
+                    "noCookiesUrl": "<?= $block->escapeJs($block->getUrl('cookie/index/noCookies')) ?>"
+                }
+            }
+        }
+
+    </script>
+<?php
+endif; ?>
