@@ -29,7 +29,6 @@ class CreateCookieCmsBlock implements DataPatchInterface
     /**
      * @param ModuleDataSetupInterface $moduleDataSetup
      * @param BlockFactory $blockFactory
-
      */
     public function __construct(
         ModuleDataSetupInterface $moduleDataSetup,
@@ -38,6 +37,7 @@ class CreateCookieCmsBlock implements DataPatchInterface
     ) {
         $this->moduleDataSetup = $moduleDataSetup;
         $this->blockFactory = $blockFactory;
+
     }
 
     /**
@@ -54,7 +54,6 @@ class CreateCookieCmsBlock implements DataPatchInterface
     public function apply()
     {
         $this->moduleDataSetup->startSetup();
-        $this->blockFactory->create();
         $cookieContent = '  <div role="alertdialog"
          tabindex="-1"
          class="message global cookie"
@@ -65,7 +64,7 @@ class CreateCookieCmsBlock implements DataPatchInterface
                 <span>
                     To comply with the new e-Privacy directive, we need to ask for your consent to set the cookies.
                 </span>
-           
+             <a href="/privacy-policy-cookie-restriction-mode">Learn more</a>)
             </p>
             <div class="actions">
                 <button id="btn-cookie-allow" class="action allow primary">
@@ -82,6 +81,7 @@ class CreateCookieCmsBlock implements DataPatchInterface
             ->setContent($cookieContent)
             ->setStores([Store::DEFAULT_STORE_ID])
             ->save();
+
         $this->moduleDataSetup->endSetup();
     }
 
