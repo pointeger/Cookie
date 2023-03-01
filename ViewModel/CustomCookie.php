@@ -39,7 +39,7 @@ class CustomCookie implements ArgumentInterface
      */
     public function renderCmsBlock()
     {
-        if ($blockIdentifier = $this->scopeConfig->getValue('web/cookie/cookie_identifier')) {
+        if ($blockIdentifier = $this->scopeConfig->getValue('cookie_section/cookie_group/cookie_identifier')) {
             try {
                 return $this->template->getLayout()
                     ->createBlock('Magento\Cms\Block\Block')
@@ -49,5 +49,9 @@ class CustomCookie implements ArgumentInterface
                 $e->getMessage();
             }
         }
+    }
+    public function checkCookieEnable()
+    {
+        return $this->scopeConfig->getValue('cookie_section/cookie_group/cookie_override');
     }
 }

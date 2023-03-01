@@ -2,15 +2,28 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
     <system>
-        <section id="web">
-            <tab>general</tab>
-            <group id="cookie">
+        <section id="cookie_section" translate="label" sortOrder="130" showInDefault="1" showInWebsite="1"
+                 showInStore="1">
+            <tab>pointeger</tab>
+            <label>Cookies</label>
+            <resource>Magento_Catalog::config_catalog</resource>
+            <group id="cookie_group" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <field id="cookie_override" translate="label" type="select" sortOrder="60" showInDefault="1"
+                       showInWebsite="1"
+                       showInStore="1">
+                    <label>Override Cookie Message</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
                 <field id="cookie_identifier" translate="label" type="select" sortOrder="60" showInDefault="1"
                        showInWebsite="1"
                        showInStore="1">
-                    <label>Select your CMS Block for your Cookie</label>
+                    <label>CMS Block for your Cookie Message</label>
                     <source_model>Pointeger\Cookie\Model\Config\Source\BlocksDropDown</source_model>
                     <comment>Select your Cms Block for Cookie</comment>
+                    <depends>
+                        <field id="cookie_section/cookie_group/cookie_override">1</field>
+                    </depends>
                 </field>
             </group>
         </section>
