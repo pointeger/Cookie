@@ -32,6 +32,7 @@ class BlocksDropDown implements OptionSourceInterface
      * BlocksDropDown constructor.
      * @param BlockRepositoryInterface $blockRepository
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param SortOrderBuilder $sortOrderBuilder
      */
     public function __construct(
         BlockRepositoryInterface $blockRepository,
@@ -54,10 +55,8 @@ class BlocksDropDown implements OptionSourceInterface
         ];
         $cmsBlocks = $this->getCmsBlocks();
         foreach ($cmsBlocks as $cmsBlock) {
-            if ($cmsBlock->isActive()) {
-                $identifiers[] =
-                    ['value' => $cmsBlock->getIdentifier(), 'label' => __($cmsBlock->getTitle())];
-            }
+            $identifiers[] =
+                ['value' => $cmsBlock->getIdentifier(), 'label' => __($cmsBlock->getTitle())];
         }
         return $identifiers;
     }

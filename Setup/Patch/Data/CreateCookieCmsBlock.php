@@ -15,7 +15,7 @@ use Magento\Store\Model\Store;
  */
 class CreateCookieCmsBlock implements DataPatchInterface
 {
-    const CMS_BLOCK_IDENTIFIER = 'cookie-cms-block';
+    const CMS_BLOCK_IDENTIFIER = 'pointeger-cookie';
 
     /**
      * @var ModuleDataSetupInterface
@@ -29,7 +29,6 @@ class CreateCookieCmsBlock implements DataPatchInterface
     /**
      * @param ModuleDataSetupInterface $moduleDataSetup
      * @param BlockFactory $blockFactory
-
      */
     public function __construct(
         ModuleDataSetupInterface $moduleDataSetup,
@@ -38,6 +37,7 @@ class CreateCookieCmsBlock implements DataPatchInterface
     ) {
         $this->moduleDataSetup = $moduleDataSetup;
         $this->blockFactory = $blockFactory;
+
     }
 
     /**
@@ -54,18 +54,29 @@ class CreateCookieCmsBlock implements DataPatchInterface
     public function apply()
     {
         $this->moduleDataSetup->startSetup();
-        $this->blockFactory->create();
-        $cookieContent = '  <div role="alertdialog"
+        $cookieContent = ' <style>
+#notice-cookie-block{
+   background-color: black;
+}
+#cookie-text{
+   color:white;
+}
+#btn-cookie-allow{
+    background-color: dimgray;
+    border: 1px solid transparent;
+}
+</style>
+ <div role="alertdialog"
          tabindex="-1"
          class="message global cookie"
          id="notice-cookie-block">
         <div role="document" class="content" tabindex="0">
-            <p>
+            <p id="cookie-text">
                 <strong>We use cookies to make your experience better.</strong>
                 <span>
                     To comply with the new e-Privacy directive, we need to ask for your consent to set the cookies.
                 </span>
-           
+             <a href="/privacy-policy-cookie-restriction-mode">Learn more</a>
             </p>
             <div class="actions">
                 <button id="btn-cookie-allow" class="action allow primary">
@@ -82,6 +93,7 @@ class CreateCookieCmsBlock implements DataPatchInterface
             ->setContent($cookieContent)
             ->setStores([Store::DEFAULT_STORE_ID])
             ->save();
+
         $this->moduleDataSetup->endSetup();
     }
 
@@ -93,3 +105,5 @@ class CreateCookieCmsBlock implements DataPatchInterface
         return [];
     }
 }
+
+

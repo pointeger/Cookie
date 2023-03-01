@@ -1,6 +1,7 @@
 <?php
 
 /** @var \Magento\Cookie\Block\Html\Notices $block */
+
 /** @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer */
 /** @var \Magento\Cookie\Helper\Cookie $cookieHelper */
 /** @var \Pointeger\Cookie\ViewModel\CustomCookie $vm */
@@ -10,7 +11,36 @@ $vm = $block->getData('view_model');
 
 $cookieHelper = $block->getData('cookieHelper');
 if ($cookieHelper->isCookieRestrictionModeEnabled()): ?>
-    <?= $vm->renderCmsBlock(); ?>
+    <?php
+    if ($vm->checkCookieEnable() == 1) { ?>
+        <?= $vm->renderCmsBlock(); ?>
+        <?php
+    } elseif ($vm->checkCookieEnable() == 0) { ?>
+        <div role="alertdialog"
+             tabindex="-1"
+             class="message global cookie"
+             id="notice-cookie-block">
+            <div role="document" class="content" tabindex="0">
+                <p>
+                    <strong><?= $block->escapeHtml(__('We use cookies to make your experience better.')) ?></strong>
+                    <span><?= $block->escapeHtml(
+                            __(
+                                'To comply with the new e-Privacy directive, we need to ask for your consent to set the cookies.'
+                            )
+                        ) ?>
+                </span>
+                    <?= $block->escapeHtml(__('<a href="%1">Learn more</a>.', $block->getPrivacyPolicyLink()), ['a']) ?>
+                </p>
+                <div class="actions">
+                    <button id="btn-cookie-allow" class="action allow primary">
+                        <span><?= $block->escapeHtml(__('Allow Cookies')) ?></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <?php
+    } ?>
+
     <?= /* @noEscape */
     $secureRenderer->renderStyleAsTag("display: none;", 'div#notice-cookie-block') ?>
     <script type="text/x-magento-init">
